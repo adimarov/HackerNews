@@ -18,11 +18,15 @@ namespace HackerNewsFunctionApp.Service
             _url = url;
             _client = new RestClient(_url);
         }
-        public List<Story> GetLatestNews(int id, int page)
+        public List<Story> GetLatestNews(int id, int size)
         {
+            if (id == 0)
+                id = GetMaxId();
+            if (size == 0)
+                size = 20;
             var story_ids = JsonConvert.DeserializeObject<int[]>(_client.Execute(new RestRequest("newstories.json", Method.GET)).Content);
 
-            var stories = LoadObjectsFeedFast<Story>(story_ids.Where(x => x < id).Take(page).ToArray());
+            var stories = LoadObjectsFeedFast<Story>(story_ids.Where(x => x < id).Take(size).ToArray());
 
             return stories.OrderBy(x => x.Id).ToList();
         }
@@ -49,7 +53,7 @@ namespace HackerNewsFunctionApp.Service
         {
             var result = _client.Execute(new RestRequest("newstories.json", Method.GET)).Content;
 
-            var story_ids = JsonConvert.DeserializeObject<int[]>(result).OrderByDescending(x=>x);
+            var story_ids = JsonConvert.DeserializeObject<int[]>(result).OrderByDescending(x=>x).ToList();
 
             while(story_ids.Count() > 0)
             {
@@ -58,7 +62,7 @@ namespace HackerNewsFunctionApp.Service
                                                 || x.Title.Contains(SearchText) 
                                                 || x.Text.Contains(SearchText)).FirstOrDefault();
                 if (story != null) return story;
-                stories.RemoveRange(0, story_ids.Count() > 10 ? 10: story_ids.Count());
+                story_ids.RemoveRange(0, story_ids.Count() > 10 ? 10: story_ids.Count());
             }
 
             return null;
@@ -82,7 +86,9 @@ namespace HackerNewsFunctionApp.Service
             Parallel.ForEach(ids.AsEnumerable(), (id) =>
                     {
                         var response = _client.Execute(new RestRequest("item/" + id + ".json", Method.GET));
-                        stack.Push(JsonConvert.DeserializeObject<T>(response.Content));
+                        var obj = JsonConvert.DeserializeObject<T>(response.Content);
+                        if (obj!=null)
+                            stack.Push(obj);
                     }
             );
 

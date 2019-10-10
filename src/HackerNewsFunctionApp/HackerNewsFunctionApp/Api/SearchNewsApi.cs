@@ -12,6 +12,8 @@ using HackerNewsFunctionApp.Utils;
 using RestSharp;
 using System.Linq;
 using HackerNewsFunctionApp.Service;
+using System.Collections.Generic;
+using HackerNewsFunctionApp.Domain;
 
 namespace HackerNewsFunctionApp
 {
@@ -19,17 +21,20 @@ namespace HackerNewsFunctionApp
     {
         [FunctionName("SearchNews")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log, ExecutionContext context)
         {
             var config = Configuration.GetConfig(context);
-            string search_text = req.Headers.Where(x => x.Key == "search_text").FirstOrDefault().Value;
+            //string search_text = req.Headers["search_text"].ToString();
+
+            var content = await new StreamReader(req.Body).ReadToEndAsync();
+            SearchRequest request = JsonConvert.DeserializeObject<SearchRequest>(content);
 
             NewsService service = new NewsService(config["HackersNewsURL"]);
 
-            var story = service.GetNewsByAuthorTitle(search_text);
+            var story = service.GetNewsByAuthorTitle(request.SearchText);
 
-            return new OkObjectResult(story);
+            return new OkObjectResult(new List<Story>{ story });
         }
     }
 }

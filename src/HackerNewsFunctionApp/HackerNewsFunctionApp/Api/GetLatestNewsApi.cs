@@ -22,12 +22,12 @@ namespace HackerNewsFunctionApp
         {
 
             var config = Configuration.GetConfig(context);
-            int id = int.Parse(req.Headers.Where(x => x.Key == "id").FirstOrDefault().Value);
-            int page = int.Parse(req.Headers.Where(x => x.Key == "page").FirstOrDefault().Value);
+            int id = int.Parse(req.Headers.Where(x => x.Key == "story_id").FirstOrDefault().Value);
+            int size = int.Parse(req.Headers.Where(x => x.Key == "page_size").FirstOrDefault().Value);
 
             NewsService service = new NewsService(config["HackersNewsURL"]);
 
-            var stories = service.GetLatestNews(id, page);
+            var stories = service.GetLatestNews(id, size);
 
             return new OkObjectResult(stories);
 
