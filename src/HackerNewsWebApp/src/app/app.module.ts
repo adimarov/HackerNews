@@ -7,11 +7,13 @@ import { NewsScreenComponent } from './components/news-screen/news-screen.compon
 import { HttpClientModule } from '@angular/common/http';
 import { CustomMaterialModule } from './core/material.module';
 import { NgxLoadingModule } from 'ngx-loading';
+import { StoryCardComponent } from './components/story-card/story-card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NewsScreenComponent,
+    StoryCardComponent,
   ],
   imports: [
     BrowserModule,
