@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import Story from '../../commons/Story';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-news-screen',
@@ -18,6 +19,8 @@ export class NewsScreenComponent implements OnInit {
   private pageSize = 30;
   private isFirstPage = true;
   private pageIds: number[] = [];
+  BOOK_TIME_URL: string = environment.serverURL + 'BookTime';
+  DASHBOARDS_URL: string = environment.serverURL + 'GetJiraDashboards';
 
   stories: Story[] = [];
   ngOnInit() {
