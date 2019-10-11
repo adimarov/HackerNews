@@ -9,7 +9,7 @@ trigger:
     - prod
   paths:
     include:
-    - src/\HackerNewsWebApp/*
+    - src/HackerNewsWebApp/*
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -25,3 +25,9 @@ steps:
     npm install
     ng build --prod
   displayName: 'npm install and build'
+
+# Publish Artifacts
+- task: PublishBuildArtifacts@1
+  inputs:
+    artifactName: dist
+    pathtoPublish: 'src/HackerNewsWebApp/dist'
