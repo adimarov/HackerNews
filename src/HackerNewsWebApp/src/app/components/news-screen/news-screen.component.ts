@@ -17,7 +17,7 @@ export class NewsScreenComponent implements OnInit {
   public loading = false;
   private initObject = 0;
   private pageSize = 30;
-  private isFirstPage = true;
+  public isFirstPage = true;
   private pageIds: number[] = [];
   BOOK_TIME_URL: string = environment.serverURL + 'BookTime';
   DASHBOARDS_URL: string = environment.serverURL + 'GetJiraDashboards';
