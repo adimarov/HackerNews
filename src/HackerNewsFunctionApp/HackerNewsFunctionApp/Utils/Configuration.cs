@@ -11,11 +11,18 @@ namespace HackerNewsFunctionApp.Utils
 
         public static IConfigurationRoot GetConfig(ExecutionContext context)
         {
-            return new ConfigurationBuilder()
-                            .SetBasePath(context.FunctionAppDirectory)
-                            .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
-                            .AddEnvironmentVariables()
-                            .Build();
+            try
+            {
+                return new ConfigurationBuilder()
+                                .SetBasePath(context.FunctionAppDirectory)
+                                .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+                                .AddEnvironmentVariables()
+                                .Build();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }
