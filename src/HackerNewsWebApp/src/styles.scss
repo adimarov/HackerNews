@@ -5,14 +5,20 @@ body {
   font-family: Roboto, Arial, sans-serif;
   margin: 0;
 }
-
-.basic-container {
-  padding: 30px;
+body {
+  padding: 15px;
 }
-
-.version-info {
-  font-size: 8pt;
-  float: right;
+.loading-class {
+  top: 0;
+  z-index: 2002;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #000000ba;
+  border-radius: 3px;
 }
-
-

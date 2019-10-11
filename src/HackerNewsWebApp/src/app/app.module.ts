@@ -3,14 +3,15 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppRoutingModule } from './core/app-routing.module';
 import { AppComponent } from './app.component';
-import { NewsScreenComponent } from './news-screen/news-screen.component';
+import { NewsScreenComponent } from './components/news-screen/news-screen.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CustomMaterialModule } from './core/material.module';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NewsScreenComponent
+    NewsScreenComponent,
   ],
   imports: [
     BrowserModule,
@@ -18,8 +19,9 @@ import { CustomMaterialModule } from './core/material.module';
     HttpClientModule,
     CustomMaterialModule,
     FlexLayoutModule,
-],
+    NgxLoadingModule.forRoot({}),
+  ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 export class AppModule { }

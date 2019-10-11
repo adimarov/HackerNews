@@ -1,0 +1,42 @@
+<div fxFlex fxLayout="column" fxLayoutGap="10px">
+  <div fxFlex fxLayout="row" fxLayoutGap="10px">
+    <input matInput #searchinput placeholder="Search" (keyup.enter)="onSearch(searchinput.value)">
+    <button mat-button (click)="updateData(); searchinput.value = ''">Refresh</button>
+    <button mat-button [disabled]="this.isFirstPage" (click)="onPrev()">Previous</button>
+    <button mat-button (click)="onNext()">Next</button>
+  </div>
+  <div fxFlex fxLayout="column" fxLayoutGap="10px" style="height: 100vh">
+    <div fxLayout="row wrap">
+      <div
+        *ngFor="let story of stories"
+        fxFlex="15"
+        fxFlex.md="33"
+        fxFlex.sm="50"
+        fxFlex.xs="100"
+        fxLayout="column"
+        style="padding: 5px;"
+      >
+        <mat-card class="news-card">
+          <mat-card-header (click)="onNavigate(story.url)" >
+            <mat-card-title class="card-title">{{story.by}}</mat-card-title>
+            <mat-card-subtitle class="card-subtitle">{{story.title}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content class="story-text">
+            <p>{{story.time}}</p>
+            <p [innerHtml] = "story.text">
+            </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <ng-template #customLoadingTemplate>
+      <div class="loading-class">
+        <h3>
+          Loading...
+        </h3>
+      </div>
+    </ng-template>
+
+    <ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '3px' }" [template]="customLoadingTemplate"></ngx-loading>
+  </div>
+</div>

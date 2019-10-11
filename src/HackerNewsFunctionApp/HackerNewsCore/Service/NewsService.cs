@@ -49,23 +49,24 @@ namespace HackerNewsFunctionApp.Service
             return max_id;
         }
 
-        public Story GetNewsByAuthorTitle(string SearchText)
+        public List<Story> GetNewsByAuthorTitle(string SearchText)
         {
             var result = _client.Execute(new RestRequest("newstories.json", Method.GET)).Content;
 
             var story_ids = JsonConvert.DeserializeObject<int[]>(result).OrderByDescending(x=>x).ToList();
 
+            List<Story> search_results = new List<Story>();
+
             while(story_ids.Count() > 0)
             {
-                var stories = LoadObjectsFeedFast<Story>(story_ids.Take(10).ToArray());
-                Story story = stories.Where(x => x.By.Contains(SearchText) 
-                                                || x.Title.Contains(SearchText) 
-                                                || x.Text.Contains(SearchText)).FirstOrDefault();
-                if (story != null) return story;
-                story_ids.RemoveRange(0, story_ids.Count() > 10 ? 10: story_ids.Count());
+                var stories = LoadObjectsFeedFast<Story>(story_ids.Take(50).ToArray());
+                search_results.AddRange(stories.Where(x => x.By.Contains(SearchText)
+                                                || x.Title.Contains(SearchText)
+                                                || x.Text.Contains(SearchText)).ToList());
+                story_ids.RemoveRange(0, 50);
             }
 
-            return null;
+            return search_results;
         }
 
         public Story GetNewsById(int id)

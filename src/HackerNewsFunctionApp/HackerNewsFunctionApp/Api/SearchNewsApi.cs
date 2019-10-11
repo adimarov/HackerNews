@@ -25,16 +25,16 @@ namespace HackerNewsFunctionApp
             ILogger log, ExecutionContext context)
         {
             var config = Configuration.GetConfig(context);
-            //string search_text = req.Headers["search_text"].ToString();
 
             var content = await new StreamReader(req.Body).ReadToEndAsync();
+
             SearchRequest request = JsonConvert.DeserializeObject<SearchRequest>(content);
 
             NewsService service = new NewsService(config["HackersNewsURL"]);
 
-            var story = service.GetNewsByAuthorTitle(request.SearchText);
+            var stories = service.GetNewsByAuthorTitle(request.SearchText);
 
-            return new OkObjectResult(new List<Story>{ story });
+            return new OkObjectResult(stories);
         }
     }
 }
