@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  serverURL: 'https://hackernewsapp.azurewebsites.net'
+  serverURL: 'https://hackernewsapp.azurewebsites.net/'
 };
