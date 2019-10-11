@@ -25,6 +25,7 @@ steps:
     npm install
     ng build --prod
   displayName: 'npm install and build'
+  workingDirectory: src/HackerNewsWebApp/
 
 # Publish Artifacts
 - task: PublishBuildArtifacts@1
