@@ -19,8 +19,8 @@ export class NewsScreenComponent implements OnInit {
   private pageSize = 30;
   public isFirstPage = true;
   private pageIds: number[] = [];
-  BOOK_TIME_URL: string = environment.serverURL + 'BookTime';
-  DASHBOARDS_URL: string = environment.serverURL + 'GetJiraDashboards';
+  public GET_NEWS_URL: string = environment.serverURL + 'GetLatestNews';
+  public SEARCH_NEWS_URL: string = environment.serverURL + 'SearchNews';
 
   stories: Story[] = [];
   ngOnInit() {
@@ -35,7 +35,7 @@ export class NewsScreenComponent implements OnInit {
         'page_size': this.pageSize.toString(),
       })
     };
-    this.http.get(`http://localhost:7071/api/GetLatestNews`, httpOptions)
+    this.http.get(this.GET_NEWS_URL, httpOptions)
       .subscribe((data: Story[]) => {
         this.stories = data;
         this.loading = false;
@@ -50,7 +50,7 @@ export class NewsScreenComponent implements OnInit {
         'page_size': this.pageSize.toString(),
       })
     };
-    this.http.get(`http://localhost:7071/api/GetLatestNews`, httpOptions)
+    this.http.get(this.GET_NEWS_URL, httpOptions)
       .subscribe((data: Story[]) => {
         this.stories = data;
         if (this.pageIds.length === 0) {
@@ -68,7 +68,7 @@ export class NewsScreenComponent implements OnInit {
         'page_size': this.pageSize.toString(),
       })
     };
-    this.http.get(`http://localhost:7071/api/GetLatestNews`, httpOptions)
+    this.http.get(this.GET_NEWS_URL, httpOptions)
       .subscribe((data: Story[]) => {
         this.isFirstPage = false;
         this.stories = data;
@@ -83,7 +83,7 @@ export class NewsScreenComponent implements OnInit {
         'Content-Type': 'application/x-www-form-urlencoded',
       })
     };
-    this.http.post(`http://localhost:7071/api/SearchNews`, {'search_text' : searchText}, httpOptions)
+    this.http.post(this.SEARCH_NEWS_URL, {'search_text' : searchText}, httpOptions)
       .subscribe((data: Story[]) => {
         this.stories = data;
         this.loading = false;

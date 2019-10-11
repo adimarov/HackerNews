@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverURL: 'https://hackernewsapp.azurewebsites.net'
+  serverURL: 'http://localhost:7071/api/'
 };
 
 /*
