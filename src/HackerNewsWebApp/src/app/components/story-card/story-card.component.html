@@ -1,11 +1,11 @@
-<mat-card class="news-card">
+<mat-card class="news-card" fxFlex fxLayout="column" fxLayoutAlign="space-between">
   <mat-card-header (click)="onNavigate(story.url)" >
     <mat-card-title class="card-title">{{story.title}}</mat-card-title>
   </mat-card-header>
   <mat-card-content class="story-text">
-    <div fxFlex fxLayout="column" >
+    <div fxFlex fxLayout="column">
       <p [innerHtml] = "getText()" (click)="showFullText();"></p>
-      <div fxFlex fxLayout="row" fxLayoutAlign="space-between center"><p>{{story.time}}</p> <p>{{story.by}}</p></div>
+      <div fxFlex fxLayout="row" fxLayoutAlign="space-between"><p>{{getDate(story.time)}}</p> <p>{{story.by}}</p></div>
     </div>
   </mat-card-content>
 </mat-card>

@@ -9,11 +9,6 @@
     <div fxLayout="row wrap">
       <div
         *ngFor="let story of stories"
-        fxFlex="15"
-        fxFlex.md="33"
-        fxFlex.sm="50"
-        fxFlex.xs="100"
-        fxLayout="column"
         style="padding: 5px;"
       >
         <app-story-card [story]="story"></app-story-card>

@@ -1,4 +1,5 @@
-﻿using HackerNewsFunctionApp.Domain;
+﻿using HackerNewsCore.Service;
+using HackerNewsFunctionApp.Domain;
 using Newtonsoft.Json;
 using RestSharp;
 using System;
@@ -13,9 +14,10 @@ namespace HackerNewsFunctionApp.Service
     {
         private string _url { get; set; }
         private RestClient _client { get; set; }
-        public NewsService(string url)
+        public NewsService(string apiurl, string cacheurl)
         {
-            _url = url;
+            _url = apiurl;
+            CacheService.Initialize(cacheurl);
             _client = new RestClient(_url);
         }
         public List<Story> GetLatestNews(int id, int size)
@@ -26,7 +28,7 @@ namespace HackerNewsFunctionApp.Service
                 size = 20;
             var story_ids = JsonConvert.DeserializeObject<int[]>(_client.Execute(new RestRequest("newstories.json", Method.GET)).Content);
 
-            var stories = LoadObjectsFeedFast<Story>(story_ids.Where(x => x < id).Take(size).ToArray());
+            var stories = LoadObjectsFeedFast(story_ids.Where(x => x < id).Take(size).ToArray());
 
             return stories.OrderBy(x => x.Id).ToList();
         }
@@ -59,7 +61,7 @@ namespace HackerNewsFunctionApp.Service
 
             while(story_ids.Count() > 0)
             {
-                var stories = LoadObjectsFeedFast<Story>(story_ids.Take(50).ToArray());
+                var stories = LoadObjectsFeedFast(story_ids.Take(50).ToArray());
                 search_results.AddRange(stories.Where(x => x.By.Contains(SearchText)
                                                 || x.Title.Contains(SearchText)
                                                 || x.Text.Contains(SearchText)).ToList());
@@ -78,22 +80,33 @@ namespace HackerNewsFunctionApp.Service
             return story;
         }
 
-        private List<T> LoadObjectsFeedFast<T>(int[] ids)
+        private List<Story> LoadObjectsFeedFast(int[] ids)
         {
             List<Action> feedTasks = new List<Action>();
 
-            ConcurrentStack<T> stack = new ConcurrentStack<T>();
+            ConcurrentStack<Story> stack = new ConcurrentStack<Story>();
 
             Parallel.ForEach(ids.AsEnumerable(), (id) =>
                     {
-                        var response = _client.Execute(new RestRequest("item/" + id + ".json", Method.GET));
-                        var obj = JsonConvert.DeserializeObject<T>(response.Content);
-                        if (obj!=null)
-                            stack.Push(obj);
+                        Story story = CacheService.GetStory(id);
+                        if (story == null)
+                        {
+                            var response = _client.Execute(new RestRequest("item/" + id + ".json", Method.GET));
+                            var obj = JsonConvert.DeserializeObject<Story>(response.Content);
+                            if (obj != null)
+                            {
+                                CacheService.SetStory(obj);
+                                stack.Push(obj);
+                            }
+                        }
+                        else
+                        {
+                            stack.Push(story);
+                        }
                     }
             );
 
-            return new List<T>(stack.ToArray());
+            return new List<Story>(stack.ToArray());
         }
 
     }

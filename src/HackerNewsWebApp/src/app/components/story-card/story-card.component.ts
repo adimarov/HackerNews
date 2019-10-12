@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import Story from '../../commons/Story';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-story-card',
@@ -22,6 +23,10 @@ export class StoryCardComponent implements OnInit {
 
   public getText(): string {
     return this.fullText ? this.story.text : this.getShortText();
+  }
+
+  public getDate(unixDate: number) {
+    return moment.unix(unixDate).format('DD-MM-YYYY');
   }
 
   private getShortText(): string {

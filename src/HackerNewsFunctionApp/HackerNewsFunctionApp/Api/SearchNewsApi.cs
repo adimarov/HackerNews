@@ -30,7 +30,7 @@ namespace HackerNewsFunctionApp
 
             SearchRequest request = JsonConvert.DeserializeObject<SearchRequest>(content);
 
-            NewsService service = new NewsService(config["HackersNewsURL"]);
+            NewsService service = new NewsService(config["HackersNewsURL"], config["RedisCache"]);
 
             var stories = service.GetNewsByAuthorTitle(request.SearchText);
 

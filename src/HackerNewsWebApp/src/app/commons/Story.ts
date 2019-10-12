@@ -4,7 +4,7 @@ export default interface Story {
   descendants: number;
   kids: number[];
   score: number;
-  time: string;
+  time: number;
   title: string;
   type: string;
   url: string;
