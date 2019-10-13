@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Router} from '@angular/router';
 import Story from '../../commons/Story';
-import {environment} from '../../../environments/environment';
 import {NewsService} from '../../services/news-service.service';
 
 @Component({
@@ -20,8 +19,6 @@ export class NewsScreenComponent implements OnInit {
   private pageSize = 20;
   public isFirstPage = true;
   private pageIds: number[] = [];
-  public GET_NEWS_URL: string = environment.serverURL + 'GetLatestNews';
-  public SEARCH_NEWS_URL: string = environment.serverURL + 'SearchNews';
 
   stories: Story[] = [];
   ngOnInit() {
