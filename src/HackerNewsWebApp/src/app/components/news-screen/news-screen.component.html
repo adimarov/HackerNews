@@ -1,5 +1,8 @@
 <div fxFlex fxLayout="column" fxLayoutGap="10px">
-  <div fxFlex fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+  <div fxFlex fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="center center"
+       fxFlex.md="50"
+       fxFlex.sm="100"
+       fxFlex.xs="100">
     <input matInput #searchinput placeholder="Search" (keyup.enter)="onSearch(searchinput.value)" class="controls">
     <button mat-button (click)="updateData(); searchinput.value = ''" class="controls">Latest News</button>
     <button mat-button [disabled]="this.isFirstPage" (click)="onPrev()" class="controls">Previous</button>

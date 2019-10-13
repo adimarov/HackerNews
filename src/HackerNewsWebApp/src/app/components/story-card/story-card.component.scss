@@ -1,13 +1,17 @@
-.news-card {
-  max-width: 200px;
+%news-card-shared{
+  max-width: 300px;
   min-height: 200px;
 }
+
+.news-card {
+  @extend %news-card-shared;
+}
 .news-card:hover {
-  max-width: 200px;
-  min-height: 200px;
+  @extend %news-card-shared;
   background-color: lemonchiffon;
   cursor: pointer;
 }
+
 .card-title{
   font-size: 10pt;
   font-family: "Courier New";
