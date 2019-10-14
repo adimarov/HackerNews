@@ -2,9 +2,9 @@
   <mat-card-header (click)="onNavigate(story.url)" >
     <mat-card-title class="card-title">{{story.title}}</mat-card-title>
   </mat-card-header>
-  <mat-card-content class="story-text">
+  <mat-card-content class="card-content" >
     <div fxFlex fxLayout="column">
-      <p [innerHtml] = "getText()" (click)="showFullText();"></p>
+      <div class="story-text" [innerHtml] = "getText()" (click)="showFullText();"></div>
       <div fxFlex fxLayout="row" fxLayoutAlign="space-between"><p>{{getDate(story.time)}}</p> <p>{{story.by}}</p></div>
     </div>
   </mat-card-content>

@@ -16,7 +16,7 @@ export class NewsScreenComponent implements OnInit {
 
   public loading = false;
   private initObject = 0;
-  private pageSize = 20;
+  private pageSize = 30;
   public isFirstPage = true;
   private pageIds: number[] = [];
 
@@ -57,7 +57,7 @@ export class NewsScreenComponent implements OnInit {
     this.newsService.getNews(this.stories[this.stories.length - 1].id, this.pageSize).subscribe(
       data => {
         this.isFirstPage = false;
-        this.stories = data;
+        this.stories = this.stories.concat(data);
         this.loading = false;
       }
     );

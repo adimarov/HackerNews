@@ -1,15 +1,18 @@
-<div fxFlex fxLayout="column" fxLayoutGap="10px">
-  <div fxFlex fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="center center"
-       fxFlex.md="50"
-       fxFlex.sm="100"
-       fxFlex.xs="100">
+<div fxFlex fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px" style="height: 95vh;">
+  <div>
     <input matInput #searchinput placeholder="Search" (keyup.enter)="onSearch(searchinput.value)" class="controls">
     <button mat-button (click)="updateData(); searchinput.value = ''" class="controls">Latest News</button>
-    <button mat-button [disabled]="this.isFirstPage" (click)="onPrev()" class="controls">Previous</button>
-    <button mat-button (click)="onNext()" class="controls">Next</button>
+    <!--<button mat-button [disabled]="this.isFirstPage" (click)="onPrev()" class="controls">Previous</button>
+    <button mat-button (click)="onNext()" class="controls">Next</button>-->
   </div>
-  <div fxFlex fxLayout="column" fxLayoutGap="10px" style="height: 100vh">
-    <div fxLayout="row wrap">
+  <div fxFlex fxLayout="column" fxLayoutAlign="start" fxLayoutGap="10px" style="height: 100%;">
+    <div fxLayout="row wrap"
+      infinite-scroll
+         [infiniteScrollDistance]="2"
+         [infiniteScrollThrottle]="500"
+         [scrollWindow]="false"
+         (scrolled)="onNext()"
+         style="height: 100%;overflow-y: scroll;">
       <div
         *ngFor="let story of stories"
         fxFlex="15"
@@ -24,9 +27,6 @@
     </div>
     <ng-template #customLoadingTemplate>
       <div class="loading-class">
-        <h3>
-          Loading...
-        </h3>
       </div>
     </ng-template>
 

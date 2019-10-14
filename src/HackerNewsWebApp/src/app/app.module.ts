@@ -8,6 +8,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { CustomMaterialModule } from './core/material.module';
 import { NgxLoadingModule } from 'ngx-loading';
 import { StoryCardComponent } from './components/story-card/story-card.component';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { StoryCardComponent } from './components/story-card/story-card.component
     CustomMaterialModule,
     FlexLayoutModule,
     NgxLoadingModule.forRoot({}),
+    InfiniteScrollModule,
   ],
   providers: [],
   bootstrap: [ AppComponent ]

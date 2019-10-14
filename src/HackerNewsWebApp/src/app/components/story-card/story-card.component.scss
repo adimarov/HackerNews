@@ -23,7 +23,16 @@
   font-weight: bold;
 }
 
+.card-content{
+  font-size: 8pt;
+  font-family: "Courier New";
+}
+
 .story-text{
   font-size: 8pt;
   font-family: "Courier New";
+  word-break: break-all;
+  word-wrap: break-word;
+  max-width: 200px;
+  display: block;
 }
